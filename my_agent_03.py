@@ -92,3 +92,4 @@ print(response["messages"][-1].content)
 # Test 3: Weekend getaway - comprehensive planning
 response = orchestrator.invoke({"messages": [HumanMessage("Plan a weekend trip to Barcelona from Madrid. Budget is $500. Calculate travel time and costs, and suggest the best places to visit, eat, and experience local culture.")]})
 print(response["messages"][-1].content)
+
