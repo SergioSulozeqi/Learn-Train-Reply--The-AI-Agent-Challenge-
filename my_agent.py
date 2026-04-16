@@ -17,3 +17,8 @@ model = ChatOpenAI(
     max_tokens=1000,
 )
 
+#agent creation
+agent = create_agent(
+    model=model,
+    system_prompt="You are a helpful AI assistant that provides clear and concise answers."
+)
