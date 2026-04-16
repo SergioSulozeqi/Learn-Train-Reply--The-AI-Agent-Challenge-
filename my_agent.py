@@ -22,3 +22,8 @@ agent = create_agent(
     model=model,
     system_prompt="You are a helpful AI assistant that provides clear and concise answers."
 )
+
+#test the agent with a sample question
+response = agent.invoke({"messages": [HumanMessage("What is machine learning?")]})
+print(response["messages"][-1].content)
+
