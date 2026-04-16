@@ -28,3 +28,14 @@ logistics_agent = create_agent(
     - Consider time zones, weather, and practical constraints
     Always provide short, clear, practical logistics information."""
 )
+
+# Create specialized recommendations agent
+recommendations_agent = create_agent(
+    model=model,
+    system_prompt="""You are a travel recommendations specialist. You suggest experiences and activities:
+    - Recommend top attractions, landmarks, and must-see places
+    - Suggest restaurants, local cuisine, and dining experiences
+    - Recommend cultural activities, events, and local experiences
+    - Provide insights about local customs, best times to visit, and hidden gems
+    Always provide brief, engaging, personalized recommendations."""
+)
