@@ -18,16 +18,6 @@ model = ChatOpenAI(
     max_tokens=1000,
 )
 
-#agent creation
-agent = create_agent(
-    model=model,
-    system_prompt="You are a helpful AI assistant that provides clear and concise answers."
-)
-
-#test the agent with a sample question
-response = agent.invoke({"messages": [HumanMessage("What is the biggest State in the US?")]})
-print(response["messages"][-1].content)
-
 # Example tool: Temperature conversion
 @tool
 def convert_temperature(value: float, from_unit: str, to_unit: str) -> float:
@@ -50,5 +40,22 @@ def convert_temperature(value: float, from_unit: str, to_unit: str) -> float:
         return value
     else:
         raise ValueError(f"Unsupported conversion from {from_unit} to {to_unit}")
-
         
+#agent creation
+agent = create_agent(
+    model=model,
+    system_prompt="Always use the convert_temperature tool when users ask for temperature conversions.",
+    tools=[convert_temperature]
+)
+
+# Test 1: Simple conversion
+response = agent.invoke({"messages": [HumanMessage("Convert 25 degrees Celsius to Fahrenheit")]})
+print(response["messages"][-1].content)
+
+# Test 2: Reverse conversion
+response = agent.invoke({"messages": [HumanMessage("What is 77 degrees Fahrenheit in Celsius?")]})
+print(response["messages"][-1].content)
+
+# Test 3: More complex question
+response = agent.invoke({"messages": [HumanMessage("If it's 20°C outside, what would that be in Fahrenheit? Is that warm or cold?")]})
+print(response["messages"][-1].content)
