@@ -18,3 +18,13 @@ model = ChatOpenAI(
     max_tokens=1000,
 )
 
+# Create specialized logistics planning agent
+logistics_agent = create_agent(
+    model=model,
+    system_prompt="""You are a travel logistics expert. You handle practical travel planning:
+    - Calculate distances between locations and travel times
+    - Estimate costs for transportation, accommodation, and activities
+    - Optimize routes and suggest efficient itineraries
+    - Consider time zones, weather, and practical constraints
+    Always provide short, clear, practical logistics information."""
+)
