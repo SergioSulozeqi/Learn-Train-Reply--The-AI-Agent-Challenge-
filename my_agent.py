@@ -28,3 +28,27 @@ agent = create_agent(
 response = agent.invoke({"messages": [HumanMessage("What is the biggest State in the US?")]})
 print(response["messages"][-1].content)
 
+# Example tool: Temperature conversion
+@tool
+def convert_temperature(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convert temperature between Celsius and Fahrenheit.
+    
+    Args:
+        value: The temperature value to convert
+        from_unit: Source unit ("celsius" or "fahrenheit")
+        to_unit: Target unit ("celsius" or "fahrenheit")
+    
+    Returns:
+        Converted temperature value
+    """
+    if from_unit.lower() == "celsius" and to_unit.lower() == "fahrenheit":
+        return (value * 9/5) + 32
+    elif from_unit.lower() == "fahrenheit" and to_unit.lower() == "celsius":
+        return (value - 32) * 5/9
+    elif from_unit.lower() == to_unit.lower():
+        return value
+    else:
+        raise ValueError(f"Unsupported conversion from {from_unit} to {to_unit}")
+
+        
