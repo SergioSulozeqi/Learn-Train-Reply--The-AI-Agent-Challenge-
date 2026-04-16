@@ -69,3 +69,26 @@ def get_recommendations_agent(trip_details: str) -> str:
     """
     response = recommendations_agent.invoke({"messages": [HumanMessage(f"Provide recommendations for: {trip_details}")]})
     return response["messages"][-1].content
+
+#orchestrator agent that combines both logistics and recommendations
+orchestrator = create_agent(
+    model=model,
+    system_prompt="""You are a travel planning coordinator. 
+    When planning trips, use both specialists:
+    1. Use plan_logistics_agent to calculate practical details: distances, times, costs, and routes
+    2. Use get_recommendations_agent to suggest attractions, restaurants, and activities
+    Always combine both the practical logistics and exciting recommendations in your final response.""",
+    tools=[plan_logistics_agent, get_recommendations_agent]
+)
+
+# Test 1: City trip planning - uses both agents
+response = orchestrator.invoke({"messages": [HumanMessage("Plan a 3-day trip to Rome. I'm coming from London with a budget of $2000. Calculate travel costs and time, and suggest must-see attractions and restaurants.")]})
+print(response["messages"][-1].content)
+
+# Test 2: Multi-city itinerary - both agents work together
+response = orchestrator.invoke({"messages": [HumanMessage("I want to visit Paris, Amsterdam, and Berlin in 7 days starting from New York. Plan the logistics (flights, trains, costs) and recommend top 3 things to do in each city.")]})
+print(response["messages"][-1].content)
+
+# Test 3: Weekend getaway - comprehensive planning
+response = orchestrator.invoke({"messages": [HumanMessage("Plan a weekend trip to Barcelona from Madrid. Budget is $500. Calculate travel time and costs, and suggest the best places to visit, eat, and experience local culture.")]})
+print(response["messages"][-1].content)
