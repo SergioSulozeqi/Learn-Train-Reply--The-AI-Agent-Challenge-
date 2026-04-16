@@ -39,3 +39,33 @@ recommendations_agent = create_agent(
     - Provide insights about local customs, best times to visit, and hidden gems
     Always provide brief, engaging, personalized recommendations."""
 )
+
+@tool
+def plan_logistics_agent(trip_request: str) -> str:
+    """
+    Plan travel logistics including distances, times, costs, and routes.
+    Use this to calculate practical travel information and optimize itineraries.
+    
+    Args:
+        trip_request: Trip details (e.g., "3 days in Paris, budget $1500, from London")
+    
+    Returns:
+        Logistics information: distances, travel times, costs, and route suggestions
+    """
+    response = logistics_agent.invoke({"messages": [HumanMessage(f"Plan logistics for this trip: {trip_request}")]})
+    return response["messages"][-1].content
+
+@tool
+def get_recommendations_agent(trip_details: str) -> str:
+    """
+    Get travel recommendations for attractions, restaurants, and activities.
+    Use this to suggest what to see, do, and eat at the destination.
+    
+    Args:
+        trip_details: Destination and trip information (e.g., "3 days in Paris, interested in art and food")
+    
+    Returns:
+        Recommendations for attractions, restaurants, activities, and cultural insights
+    """
+    response = recommendations_agent.invoke({"messages": [HumanMessage(f"Provide recommendations for: {trip_details}")]})
+    return response["messages"][-1].content
